@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GoTrip | Gestión de Reservas</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    
+  </head>
+  <body class="bg-light" style="font-family: 'Raleway', sans-serif;">
+    
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div class="container">
+        <a class="navbar-brand text-primary fw-bold" href="/">
+          <i class="bi bi-airplane-engines-fill me-2 fs-4"></i>GoTrip
+        </a>
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active fw-bold" aria-current="page" href="/">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" href="#">Destinos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" href="#">Configuración</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="pt-5">
+      <div class="container text-center mb-5">
+        <h1 class="display-5 fw-bold text-dark">Gestión de Reservas</h1>
+        <p class="lead text-muted">Panel administrativo de la agencia Go Trip</p>
+      </div>
+
+      <div class="container mb-4">
+        {% if mensaje_exito %}
+        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0" role="alert">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+            <div><strong>¡Hecho!</strong> {{ mensaje_exito }}</div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+
+        {% if msg == 'error' %}
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0" role="alert">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+        <div><strong>¡Vaya!</strong> Hubo un problema al procesar la reserva. Inténtalo de nuevo.</div>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+      </div>
+
+      <div class="container mb-3 text-start">
+        <a href="/reservas/nueva" class="btn btn-primary shadow-sm px-4 fw-bold">
+          <i class="bi bi-plus-lg me-2"></i>Nueva Reserva
+        </a>
+      </div>
+
+      <section class="container mb-5 pb-5">
+        <div class="card shadow-sm border-0">
+          <div class="card-header bg-white py-3">
+            <h2 class="h5 mb-0 text-secondary fw-bold">
+              <i class="bi bi-list-task me-2 text-primary"></i>Listado de Viajes
+            </h2>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-secondary">
+                  <tr>
+                    <th scope="col" class="d-none">ID</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Destino</th>
+                    <th scope="col">Salida / Regreso</th>
+                    <th scope="col" class="text-center">Num. Personas</th>
+                    <th scope="col">Paquete</th>
+                    <th scope="col">Tipo Viaje</th>
+                    <th scope="col">Pago</th>
+                    <th scope="col" class="text-center">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="text-dark">
+                  {% for reserva in reservas %}
+                  <tr>
+                    <td class="d-none">{{ reserva.id }}</td>
+                    <td class="fw-bold">{{ reserva.nombre_cliente }}</td>
+                    <td><small>{{ reserva.email }}</small></td>
+                    <td>
+                      <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 fw-normal">
+                        {{ reserva.destino }}
+                      </span>
+                    </td>
+                    <td class="text-muted" style="font-size: 0.85rem;">
+                      {{ reserva.fecha_salida }} <br> {{ reserva.fecha_regreso }}
+                    </td>
+                    <td class="text-center fw-bold">{{ reserva.num_personas }}</td>
+                    <td>{{ reserva.tipo_paquete | capitalize }}</td>
+                    <td>{{ reserva.tipo_viaje | capitalize }}</td>
+                    <td>
+                      <small class="text-secondary">
+                        {{ reserva.forma_pago | replace('_', ' ') | capitalize }}
+                      </small>
+                    </td>
+                    <td class="text-center">
+                      <div class="btn-group">
+                        <a href="/reservas/editar/{{ reserva.id }}" class="btn btn-sm btn-outline-warning border-0" title="Editar">
+                          <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <button class="btn btn-sm btn-outline-danger border-0" data-id="{{ reserva.id }}" title="Eliminar">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer bg-white text-muted py-3">
+            <small>Total de reservas: <strong>{{ reservas|length }}</strong></small>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-white border-top py-4">
+      <div class="container text-center">
+        <p class="text-muted small mb-0">
+          &copy; 2026 Go Trip
+        </p>
+      </div>
+    </footer>
+
+    <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+          <div class="modal-header bg-white border-0">
+            <h5 class="modal-title fw-bold text-danger" id="modalEliminarLabel">Confirmar Cancelación</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center py-4">
+            <p>¿Estás seguro de que deseas eliminar permanentemente esta reserva?</p>
+            <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Esta acción no tiene vuelta atrás</small>
+          </div>
+          <div class="modal-footer border-0 bg-light">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Mantener Reserva</button>
+            <button type="button" class="btn btn-danger btn-sm px-4" id="btnConfirmarEliminar">Sí, Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      let idReserva = null;
+      const modalE = new bootstrap.Modal(document.getElementById('modalEliminar'));
+
+      document.addEventListener('click', function(e) {
+        const btnDelete = e.target.closest('.btn-outline-danger');
+        if (btnDelete) {
+          idReserva = btnDelete.getAttribute('data-id');
+          modalE.show();
+        }
+      });
+
+      document.getElementById('btnConfirmarEliminar').addEventListener('click', async function() {
+        if (idReserva) {
+          try {
+            const res = await fetch(`/reservas/${idReserva}`, { method: 'DELETE' });
+            if (res.ok) {
+              window.location.href = "/?msg=deleted";
+            } else {
+              alert('No se pudo eliminar la reserva');
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

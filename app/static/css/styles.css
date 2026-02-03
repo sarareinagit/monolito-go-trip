@@ -1,0 +1,138 @@
+/* ********** Custom Properties (Versión Clara Go Trip) ********** */
+:root {
+  --first-color: #0d6efd;       /* Azul Primario (Bootstrap Blue) */
+  --second-color: #00b4d8;      /* Azul Turquesa (Viajes/Mar) */
+  --third-color: #ffffff;       /* Blanco Puro */
+  --text-dark: #212529;        /* Gris casi negro para legibilidad */
+  --text-muted: #6c757d;       /* Gris suave para detalles */
+  --bg-light: #f8f9fa;         /* Fondo de página */
+  --link-color: #0d6efd;
+}
+
+/* ********** Reset Styles ********** */
+html {
+  height: 100%;
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: all 0.3s ease-out;
+}
+
+a:hover {
+  color: var(--second-color);
+}
+
+/* ********** Bootstrap Overrides ********** */
+.bg-dark {
+  background-color: var(--third-color) !important; /* Ahora el fondo es blanco */
+}
+
+.navbar {
+  background-color: var(--third-color);
+  padding-top: 1rem !important;    
+  padding-bottom: 1rem !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.nav-link {
+  margin-left: 0.5rem;
+  color: var(--text-dark) !important;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.nav-link:hover {
+  color: var(--first-color) !important;
+}
+
+.navbar-brand {
+  color: var(--first-color) !important;
+  font-size: 1.5rem;
+}
+
+/* ********** My Styles ********** */
+main {
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* Gradiente para la cabecera (azul suave a blanco) */
+.bg-gradient-blue-green {
+  background-color: var(--third-color);
+  background-image: linear-gradient(
+    135deg,
+    #e0f2ff 0%,
+    var(--third-color) 100%
+  );
+}
+
+/* Botones personalizados */
+.btn-primary {
+  background-color: var(--first-color) !important;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2) !important;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7 !important;
+  transform: translateY(-1px);
+}
+
+.btn-warning {
+  background-color: #ffca2c !important; /* Amarillo vibrante para editar */
+  border: none;
+  color: #000;
+}
+
+.btn-danger {
+  background-color: #dc3545 !important; /* Rojo estándar para borrar */
+  border: none;
+}
+
+/* Tabla */
+.table th, .table td {
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 1rem !important;
+}
+
+.table thead {
+    background-color: #f1f8ff;
+    color: var(--first-color);
+}
+
+/* Footer */
+footer {
+    background-color: var(--third-color) !important;
+    border-top: 1px solid #dee2e6;
+}
+
+footer nav a {
+    color: var(--text-muted) !important;
+}
+
+footer nav a:hover {
+    color: var(--first-color) !important;
+    transform: translateY(-3px);
+    display: inline-block;
+}
+
+/* Card */
+.card {
+    border-radius: 12px;
+    border: none;
+    overflow: hidden;
+}
